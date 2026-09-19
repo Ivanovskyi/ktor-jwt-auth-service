@@ -1,0 +1,14 @@
+ktor:
+  application:
+    modules:
+      - com.example.auth.ApplicationKt.module
+  deployment:
+    port: "$PORT:8080"
+
+auth:
+  issuer: "ktor-auth-service"
+  audience: "my-microservices"
+  realm: "ktor-auth"
+  username: "$AUTH_USER"
+  password: "$AUTH_PASSWORD"
+  accessTokenTtlMs: 3600000
