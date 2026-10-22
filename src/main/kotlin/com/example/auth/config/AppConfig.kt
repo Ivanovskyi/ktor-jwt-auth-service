@@ -18,8 +18,7 @@ data class AppConfig(
                 realm = config.property("auth.realm").getString(),
                 username = config.property("auth.username").getString(),
                 password = config.property("auth.password").getString(),
-                accessTokenTtlMs =
-                    config.property("auth.accessTokenTtlMs").getString().toLong()
+                accessTokenTtlMs = config.property("auth.accessTokenTtlMs").getString().toLong()
             )
         }
     }
