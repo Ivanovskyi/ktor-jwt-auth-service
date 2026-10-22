@@ -9,6 +9,7 @@ import java.math.BigInteger
 import java.util.Base64
 
 fun Route.jwksRoutes(jwtService: JwtService) {
+    
     get("/.well-known/jwks.json") {
         val key = jwtService.publicKey()
         val encoder = Base64.getUrlEncoder().withoutPadding()
@@ -18,19 +19,11 @@ fun Route.jwksRoutes(jwtService: JwtService) {
             kid = jwtService.keyId(),
             alg = "RS256",
             use = "sig",
-            n = encoder.encodeToString(
-                key.modulus.toUnsignedBytes()
-            ),
-            e = encoder.encodeToString(
-                key.publicExponent.toUnsignedBytes()
-            )
+            n = encoder.encodeToString(key.modulus.toUnsignedBytes()),
+            e = encoder.encodeToString(key.publicExponent.toUnsignedBytes())
         )
 
-        call.respond(
-            JwksResponse(
-                keys = listOf(jwk)
-            )
-        )
+        call.respond(JwksResponse(keys = listOf(jwk)))
     }
 }
 
