@@ -28,7 +28,8 @@ fun Application.module() {
     install(CallLogging)
 
     install(StatusPages) {
-        exception<Throwable> { call, _ -> call.respond(HttpStatusCode.InternalServerError, ErrorResponse("Internal server error"))
+        exception<Throwable> { 
+            call, _ -> call.respond(HttpStatusCode.InternalServerError, ErrorResponse("Internal server error"))
         }
     }
 
