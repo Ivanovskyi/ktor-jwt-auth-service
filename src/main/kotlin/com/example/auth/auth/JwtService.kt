@@ -8,15 +8,13 @@ import java.security.interfaces.RSAPrivateKey
 import java.security.interfaces.RSAPublicKey
 import java.util.Date
 
-class JwtService(
-    private val config: AppConfig
-) {
+class JwtService(private val config: AppConfig) {
+    
     private val key: JwtKey = generateKey()
-
-    private val algorithm =
-        Algorithm.RSA256(key.publicKey, key.privateKey)
+    private val algorithm = Algorithm.RSA256(key.publicKey, key.privateKey)
 
     fun createToken(username: String): String {
+        
         val now = System.currentTimeMillis()
 
         return JWT.create()
@@ -25,14 +23,11 @@ class JwtService(
             .withSubject(username)
             .withKeyId(key.id)
             .withIssuedAt(Date(now))
-            .withExpiresAt(
-                Date(now + config.accessTokenTtlMs)
-            )
+            .withExpiresAt(Date(now + config.accessTokenTtlMs))
             .sign(algorithm)
     }
 
     fun publicKey(): RSAPublicKey = key.publicKey
-
     fun keyId(): String = key.id
 
     private fun generateKey(): JwtKey {
@@ -41,10 +36,6 @@ class JwtService(
 
         val pair = generator.generateKeyPair()
 
-        return JwtKey(
-            id = "kid-2026-v1",
-            publicKey = pair.public as RSAPublicKey,
-            privateKey = pair.private as RSAPrivateKey
-        )
+        return JwtKey(id = "kid-2026-v1",publicKey = pair.public as RSAPublicKey, privateKey = pair.private as RSAPrivateKey)
     }
 }
