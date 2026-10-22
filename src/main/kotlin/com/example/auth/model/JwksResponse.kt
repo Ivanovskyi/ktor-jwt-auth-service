@@ -13,6 +13,4 @@ data class JwkKey(
 )
 
 @Serializable
-data class JwksResponse(
-    val keys: List<JwkKey>
-)
+data class JwksResponse(val keys: List<JwkKey>)
