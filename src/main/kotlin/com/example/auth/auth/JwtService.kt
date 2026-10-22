@@ -35,7 +35,6 @@ class JwtService(private val config: AppConfig) {
         generator.initialize(2048)
 
         val pair = generator.generateKeyPair()
-
         return JwtKey(id = "kid-2026-v1",publicKey = pair.public as RSAPublicKey, privateKey = pair.private as RSAPrivateKey)
     }
 }
