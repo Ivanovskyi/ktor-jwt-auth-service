@@ -9,34 +9,22 @@ import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
-fun Route.authRoutes(
-    config: AppConfig,
-    jwtService: JwtService
-) {
+fun Route.authRoutes(config: AppConfig, jwtService: JwtService) {
+    
     post("/login") {
         val request = try {
             call.receive<LoginRequest>()
         } catch (_: Exception) {
-            call.respond(
-                HttpStatusCode.BadRequest,
-                mapOf("error" to "Invalid request body")
-            )
+            call.respond(HttpStatusCode.BadRequest, mapOf("error" to "Invalid request body"))
             return@post
         }
 
-        if (
-            request.username != config.username ||
-            request.password != config.password
-        ) {
-            call.respond(
-                HttpStatusCode.Unauthorized,
-                mapOf("error" to "Invalid credentials")
-            )
+        if (request.username != config.username ||request.password != config.password) {
+            call.respond(HttpStatusCode.Unauthorized, mapOf("error" to "Invalid credentials"))
             return@post
         }
 
         val token = jwtService.createToken(request.username)
-
         call.respond(TokenResponse(token))
     }
 }
