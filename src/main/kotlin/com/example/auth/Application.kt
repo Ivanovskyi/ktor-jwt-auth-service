@@ -15,9 +15,7 @@ import io.ktor.server.routing.*
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ErrorResponse(
-    val error: String
-)
+data class ErrorResponse(val error: String)
 
 fun Application.module() {
     val config = AppConfig.from(environment.config)
@@ -30,11 +28,7 @@ fun Application.module() {
     install(CallLogging)
 
     install(StatusPages) {
-        exception<Throwable> { call, _ ->
-            call.respond(
-                HttpStatusCode.InternalServerError,
-                ErrorResponse("Internal server error")
-            )
+        exception<Throwable> { call, _ -> call.respond(HttpStatusCode.InternalServerError, ErrorResponse("Internal server error"))
         }
     }
 
@@ -43,10 +37,7 @@ fun Application.module() {
         jwksRoutes(jwtService)
 
         get("/health") {
-            call.respond(
-                HttpStatusCode.OK,
-                mapOf("status" to "UP")
-            )
+            call.respond(HttpStatusCode.OK, mapOf("status" to "UP"))
         }
     }
 }
